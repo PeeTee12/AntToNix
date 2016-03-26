@@ -1,5 +1,6 @@
 package mravenci.anttonix;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,7 +10,19 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dsi.ant.plugins.antplus.pcc.MultiDeviceSearch;
+import com.dsi.ant.plugins.antplus.pccbase.MultiDeviceSearch.MultiDeviceSearchResult;
+import com.dsi.ant.plugins.antplus.pcc.MultiDeviceSearch.SearchCallbacks;
+import com.dsi.ant.plugins.antplus.pcc.defines.DeviceType;
+
+
+
 public class SearchActivity extends AppCompatActivity {
+
+    Context context;
+    MultiDeviceSearch search;
+    Enum<DeviceType> deviceType;
+    MultiDeviceSearch.SearchCallbacks callbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +30,13 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        context = getApplicationContext();
+        deviceType = getAntDeviceType();
+
+        search = new MultiDeviceSearch(this, deviceType, callbacks);
+        callbacks.onDeviceFound(getDeviceID());
+
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
